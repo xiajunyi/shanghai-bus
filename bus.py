@@ -14,11 +14,11 @@ class Bus:
                           '(KHTML, like Gecko) Mobile/14F89 MicroMessenger/6.5.10 NetType/WIFI Language/zh_CN'
         }
 
-        self.homepage_url = 'http://shanghaicity.openservice.kankanews.com/'
-        self.query_router_url = 'http://shanghaicity.openservice.kankanews.com/public/bus'
-        self.query_sid_url = 'http://shanghaicity.openservice.kankanews.com/public/bus/get'
-        self.query_router_details_url = 'http://shanghaicity.openservice.kankanews.com/public/bus/mes/sid/'
-        self.query_stop_url = 'http://shanghaicity.openservice.kankanews.com/public/bus/Getstop'
+        self.homepage_url = 'https://shanghaicity.openservice.kankanews.com/'
+        self.query_router_url = 'https://shanghaicity.openservice.kankanews.com/public/bus'
+        self.query_sid_url = 'https://shanghaicity.openservice.kankanews.com/public/bus/get'
+        self.query_router_details_url = 'https://shanghaicity.openservice.kankanews.com/public/bus/mes/sid/'
+        self.query_stop_url = 'https://shanghaicity.openservice.kankanews.com/public/bus/Getstop'
 
     def _homepage(self):
         r = self.s.get(self.homepage_url, headers=self.headers)
@@ -40,7 +40,7 @@ class Bus:
 
     def _query_router_details_page(self, sid, direction='0'):
         self.headers['Referer'] = self.query_router_url
-        url = self.query_router_details_url + sid + '/stoptype/' + direction
+        url = self.query_router_details_url + sid + '?stoptype=' + direction
         r = self.s.get(url, headers=self.headers)
 
         return r
@@ -142,12 +142,12 @@ class Bus:
             strat_at = soup.select('div.upgoing.cur em.s')[0].string
             end_at = soup.select('div.upgoing.cur em.m')[0].string
         else:
-            stations = soup.select('div.downgoing.cur span')
+            stations = soup.select('div.upgoing.cur span')
             from_station = stations[0].string
             to_station = stations[1].string
 
-            strat_at = soup.select('div.downgoing.cur em.s')[0].string
-            end_at = soup.select('div.downgoing.cur em.m')[0].string
+            strat_at = soup.select('div.upgoing.cur em.s')[0].string
+            end_at = soup.select('div.upgoing.cur em.m')[0].string
 
         stations = soup.select('div.station')
         stops = []
