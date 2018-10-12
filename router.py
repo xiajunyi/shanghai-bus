@@ -63,3 +63,7 @@ def handle_invalid_parameter(e):
     response = jsonify(e.to_dict())
     response.status_code = e.status_code
     return response
+
+if __name__ == '__main__':
+    app.config['JSON_AS_ASCII'] = False
+    app.run(host='127.0.0.1', port=8080, debug=False, threaded=True)
